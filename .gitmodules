@@ -1,0 +1,3 @@
+[submodule "rebwar"]
+	path = rebwar
+	url = https://github.com/allekok/rebwar

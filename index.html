@@ -1,0 +1,109 @@
+<!DOCTYPE HTML>
+<html dir="rtl" lang="ckb" >
+	<head>
+		<title>هاوسەروا</title>
+		<meta charset="utf-8" >
+		<meta name="viewport" content="width=device-width" >
+		<style>
+		 body {
+			 margin:0;
+			 font-size:1.2em;
+		 }
+		 header {
+			 text-align:center;
+			 padding:1em 0;
+			 font-size:1.5em;
+		 }
+		 form {
+			 display:flex;
+		 }
+		 div {
+			 display:flex;
+			 width:100%;
+			 margin:0 .5em;
+		 }
+		 label {
+			 margin:auto;
+		 }
+		 input {
+			 -webkit-appearance:none;
+			 border:0;
+			 outline:0;
+			 padding:.5em 1em;
+			 display:block;
+			 width:100%;
+			 box-sizing:border-box;
+			 font-size:inherit;
+			 margin:1em .5em;
+			 border-bottom:1px solid;
+		 }
+		 input:focus {
+			 border-color:#00E;
+		 }
+		 button {
+			 -webkit-appearance:none;
+			 background:#00E;
+			 color:#FFF;
+			 border:0;
+			 outline:0;
+			 padding:1em;
+			 display:block;
+			 width:100%;
+			 box-sizing:border-box;
+			 font-size:inherit;
+		 }
+		 pre {
+			 padding:0 1em;
+		 }
+		 p {
+			 direction:ltr;
+			 padding:0 1em;
+			 font-family:monospace;
+		 }
+		</style>
+	</head>
+	<body>
+		<header>
+			دۆزینەوەی هاوسەروا
+		</header>
+		<form>
+			<div>
+				<label>وشە:</label>
+				<input type="text" placeholder="وشە">
+			</div>
+			<div>
+				<label>ئەژمار:</label>
+				<input type="number" placeholder="ئەژماری ئاکامەکان" value="10">
+			</div>
+		</form>
+		<pre></pre>
+		<p>
+			API: /haw-serwa.php?q=وشە&n=ئەژماری ئاکامەکان
+		</p>
+	</body>
+	<script>
+	 const frm = document.querySelector("form")
+	 const q = document.querySelector("input[type=text]")
+	 const n = document.querySelector("input[type=number]")
+	 const r = document.querySelector("pre")
+
+	 frm.addEventListener("submit", (e) => {
+		 e.preventDefault()
+		 find()
+	 })
+	 q.addEventListener("keyup", find)
+	 q.focus()
+
+	 function find () {
+		 r.innerText = "..."
+		 getUrl(`haw-serwa.php?q=${q.value}&n=${n.value}`,
+			(s) => r.innerText = s)
+	 }
+	 function getUrl (url, cb) {
+		 const x = new XMLHttpRequest
+		 x.open("get", url)
+		 x.onload = () => cb(x.responseText)
+		 x.send()
+	 }
+	</script>
+</html>
