@@ -40,6 +40,9 @@
 		 input:focus {
 			 border-color:#00E;
 		 }
+		 input[type=number] {
+			 direction:ltr;
+		 }
 		 button {
 			 -webkit-appearance:none;
 			 background:#00E;
@@ -86,18 +89,25 @@
 	 const q = document.querySelector("input[type=text]")
 	 const n = document.querySelector("input[type=number]")
 	 const r = document.querySelector("pre")
+	 const noActionKeys = [16, 17, 18, 91, 20, 9, 93,
+			       37, 38, 39, 40, 32, 224, 13]
 
 	 frm.addEventListener("submit", (e) => {
 		 e.preventDefault()
 		 find()
 	 })
-	 q.addEventListener("keyup", find)
+	 q.addEventListener("keyup", (e) => {
+		 if(noActionKeys.indexOf(e.keyCode) === -1)
+			 find()
+	 })
 	 q.focus()
 
 	 function find () {
-		 r.innerText = "..."
-		 getUrl(`haw-serwa.php?q=${q.value}&n=${n.value}`,
-			(s) => r.innerText = s)
+		 setTimeout(() => {
+			 r.innerText = "..."
+			 getUrl(`haw-serwa.php?q=${q.value}&n=${n.value}`,
+				(s) => r.innerText = s)
+		 }, 150)
 	 }
 	 function getUrl (url, cb) {
 		 const x = new XMLHttpRequest
