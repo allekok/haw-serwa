@@ -18,12 +18,12 @@ $words = explode("\n", $words);
 $result = [];
 
 foreach($words as $i => $word)
-	@$result[qafiye($input, $word)][] = $word;
+	@$result[serwa($input, $word)][] = $word;
 
 print_n($result, $n);
 
 /* Function */
-function qafiye ($word_1, $word_2) {
+function serwa ($word_1, $word_2) {
 	$i = 0;
 	$word_1_len = mb_strlen($word_1) - 1;
 	$word_2_len = mb_strlen($word_2) - 1;
@@ -41,5 +41,13 @@ function print_n ($arr, $n) {
 	}
 	array_pop($arr);
 	print_n($arr, $n);
+}
+/* https://www.php.net/manual/en/function.array-key-last.php#123016 */
+if(!function_exists("array_key_last")) {
+	function array_key_last($array) {
+		if(!is_array($array) or empty($array))
+			return NULL;
+		return array_keys($array)[count($array)-1];
+	}
 }
 ?>
