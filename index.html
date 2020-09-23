@@ -29,19 +29,15 @@
 			 -webkit-appearance:none;
 			 border:0;
 			 outline:0;
-			 padding:.5em 1em;
 			 display:block;
 			 width:100%;
 			 box-sizing:border-box;
 			 font-size:inherit;
-			 margin:1em .5em;
+			 margin:1em .3em 1em 0;
 			 border-bottom:1px solid;
 		 }
 		 input:focus {
 			 border-color:#00E;
-		 }
-		 input[type=number] {
-			 direction:ltr;
 		 }
 		 button {
 			 -webkit-appearance:none;
@@ -54,6 +50,9 @@
 			 width:100%;
 			 box-sizing:border-box;
 			 font-size:inherit;
+		 }
+		 button:hover {
+			 background:#00C;
 		 }
 		 pre {
 			 padding:0 1em;
@@ -72,48 +71,57 @@
 		<form>
 			<div>
 				<label>وشە:</label>
-				<input type="text" placeholder="وشە">
+				<input type="text" id="q">
 			</div>
 			<div>
 				<label>ئەژمار:</label>
-				<input type="number" placeholder="ئەژماری ئاکامەکان" value="10">
+				<input type="text" id="n" value="٢٥">
 			</div>
+			<button type="submit">بیدۆزەوە</button>
 		</form>
 		<pre></pre>
 		<p>
-			API: /haw-serwa.php?q=وشە&n=ئەژماری ئاکامەکان
+			API: /haw-serwa.php?q=وشە&n=ئەژمار
 		</p>
 	</body>
 	<script>
 	 const frm = document.querySelector("form")
-	 const q = document.querySelector("input[type=text]")
-	 const n = document.querySelector("input[type=number]")
+	 const q = document.querySelector("input#q")
+	 const n = document.querySelector("input#n")
 	 const r = document.querySelector("pre")
-	 const noActionKeys = [16, 17, 18, 91, 20, 9, 93,
-			       37, 38, 39, 40, 32, 224, 13]
-
+	 
 	 frm.addEventListener("submit", (e) => {
 		 e.preventDefault()
 		 find()
 	 })
-	 q.addEventListener("keyup", (e) => {
-		 if(noActionKeys.indexOf(e.keyCode) === -1)
-			 find()
-	 })
 	 q.focus()
 
 	 function find () {
+		 const qVal = q.value.trim()
+		 const nVal = translateNumbers(translateNumbers(
+			 n.value.trim(), "ckb", "en"), "fa", "en")
 		 setTimeout(() => {
 			 r.innerText = "..."
-			 getUrl(`haw-serwa.php?q=${q.value}&n=${n.value}`,
+			 getUrl(`haw-serwa.php?q=${qVal}&n=${nVal}`,
 				(s) => r.innerText = s)
 		 }, 150)
 	 }
 	 function getUrl (url, cb) {
 		 const x = new XMLHttpRequest
-		 x.open("get", url)
 		 x.onload = () => cb(x.responseText)
+		 x.open("get", url)
 		 x.send()
+	 }
+	 function translateNumbers (str, f, t) {
+		 const numbers = {
+			 en: ["1","2","3","4","5","6","7","8","9","0"],
+			 ckb: ["١","٢","٣","٤","٥","٦","٧","٨","٩","٠"],
+			 fa: ["۰","۱","۲","۳","۴","۵","۶","۷","۸","۹"],
+		 }
+		 for(const i in numbers.en)
+			 str = str.replace(new RegExp(numbers[f][i], "g"),
+					   numbers[t][i])
+		 return str
 	 }
 	</script>
 </html>
