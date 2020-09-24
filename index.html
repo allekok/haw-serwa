@@ -7,7 +7,6 @@
 		<style>
 		 body {
 			 margin:0;
-			 font-size:1.2em;
 		 }
 		 header {
 			 text-align:center;
@@ -16,11 +15,11 @@
 		 }
 		 form {
 			 display:flex;
+			 padding-right:.3em;
 		 }
 		 div {
 			 display:flex;
 			 width:100%;
-			 margin:0 .5em;
 		 }
 		 label {
 			 margin:auto;
@@ -33,11 +32,14 @@
 			 width:100%;
 			 box-sizing:border-box;
 			 font-size:inherit;
-			 margin:1em .3em 1em 0;
+			 margin:1em .3em;
 			 border-bottom:1px solid;
 		 }
 		 input:focus {
 			 border-color:#00E;
+		 }
+		 input#n {
+			 direction:ltr;
 		 }
 		 button {
 			 -webkit-appearance:none;
@@ -48,6 +50,8 @@
 			 padding:1em;
 			 display:block;
 			 width:100%;
+			 max-width:25%;
+			 min-width:75px;
 			 box-sizing:border-box;
 			 font-size:inherit;
 		 }
@@ -100,6 +104,10 @@
 		 const qVal = q.value.trim()
 		 const nVal = translateNumbers(translateNumbers(
 			 n.value.trim(), "ckb", "en"), "fa", "en")
+		 if(!qVal) {
+			 q.focus()
+			 return
+		 }
 		 setTimeout(() => {
 			 r.innerText = "..."
 			 getUrl(`haw-serwa.php?q=${qVal}&n=${nVal}`,
