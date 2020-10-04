@@ -72,14 +72,14 @@
 		<header>
 			دۆزینەوەی هاوسەروا
 		</header>
-		<form>
+		<form action="haw-serwa.php" method="get">
 			<div>
 				<label>وشە:</label>
-				<input type="text" id="q">
+				<input type="text" name="q" id="q">
 			</div>
 			<div>
 				<label>ئەژمار:</label>
-				<input type="text" id="n" value="٢٥">
+				<input type="text" name="n" id="n" value="٢٥">
 			</div>
 			<button type="submit">بیدۆزەوە</button>
 		</form>
@@ -111,7 +111,7 @@
 		 setTimeout(() => {
 			 r.innerText = "..."
 			 getUrl(`haw-serwa.php?q=${qVal}&n=${nVal}`,
-				(s) => r.innerText = s)
+				s => r.innerText = s)
 		 }, 150)
 	 }
 	 function getUrl (url, cb) {

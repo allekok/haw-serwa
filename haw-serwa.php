@@ -7,8 +7,9 @@ header("Content-type: text/plain; charset=utf-8");
 $q = @trim(filter_var($_REQUEST["q"], FILTER_SANITIZE_STRING));
 if(!$q) exit(1);
 
-$n = filter_var($_REQUEST["n"], FILTER_VALIDATE_INT) ?
-     $_REQUEST["n"] : 30;
+$n = @trim(filter_var($_REQUEST["n"], FILTER_SANITIZE_STRING));
+$n = intval(translate_nums(translate_nums($n, "ckb", "en"), "fa", "en"));
+if(!filter_var($n, FILTER_VALIDATE_INT)) $n = 30;
 
 $path = TREE . "/" . mb_substr($q, -1) . "/1.txt";
 if(!file_exists($path)) exit(1);
@@ -41,5 +42,13 @@ function print_n ($arr, $n) {
 		echo "$o\n";
 	}
 	print_n($arr, $n);
+}
+function translate_nums ($str, $f, $t) {
+	$numbers = [
+		"en" => ["1","2","3","4","5","6","7","8","9","0"],
+		"ckb" => ["١","٢","٣","٤","٥","٦","٧","٨","٩","٠"],
+		"fa" => ["۰","۱","۲","۳","۴","۵","۶","۷","۸","۹"]
+	];
+	return str_replace($numbers[$f], $numbers[$t], $str);
 }
 ?>
