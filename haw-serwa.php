@@ -30,8 +30,7 @@ function serwa ($word_1, $word_2) {
 	$word_1_len = mb_strlen($word_1) - 1;
 	$word_2_len = mb_strlen($word_2) - 1;
 	while($word_1_len >= 0 and $word_2_len >= 0 and
-		mb_substr($word_1, $word_1_len--, 1) ==
-			mb_substr($word_2, $word_2_len--, 1)) $i++;
+		$word_1[$word_1_len--] == $word_2[$word_2_len--]) $i++;
 	return $i;
 }
 function print_n ($arr, $n) {
