@@ -17,7 +17,7 @@
 			 display:flex;
 			 padding-right:.3em;
 		 }
-		 div {
+		 form div {
 			 display:flex;
 			 width:100%;
 		 }
@@ -59,14 +59,20 @@
 		 button:hover {
 			 background:#00C;
 		 }
-		 pre {
-			 padding:0 1em;
-			 font-family:auto;
+		 #result {
+			 padding:1em;
+			 font-size:1.1em;
 		 }
-		 p {
+		 p.left {
 			 direction:ltr;
 			 padding:0 1em;
 			 font-family:monospace;
+		 }
+		 i {
+			 color:#00E;
+			 border-bottom:1px solid #00E;
+			 padding-bottom:.3em;
+			 font-style:normal;
 		 }
 		</style>
 	</head>
@@ -85,8 +91,8 @@
 			</div>
 			<button type="submit">بیدۆزەوە</button>
 		</form>
-		<pre></pre>
-		<p>
+		<div id="result"></div>
+		<p class="left">
 			API: /haw-serwa.php?q=وشە&n=ئەژمار
 		</p>
 	</body>
@@ -94,7 +100,7 @@
 	 const frm = document.querySelector("form")
 	 const q = document.querySelector("input#q")
 	 const n = document.querySelector("input#n")
-	 const r = document.querySelector("pre")
+	 const r = document.querySelector("#result")
 	 
 	 frm.addEventListener("submit", (e) => {
 		 e.preventDefault()
@@ -112,9 +118,16 @@
 		 }
 		 setTimeout(() => {
 			 r.innerText = "..."
-			 getUrl(`haw-serwa.php?q=${qVal}&n=${nVal}`,
-				s => r.innerText = s)
-		 }, 150)
+			 getUrl(`haw-serwa.php?q=${qVal}&n=${nVal}`, s => {
+				 s = s.split("\n")
+				 let t = ""
+				 for(const o of s) {
+					 const w = o.split("\t")
+					 t += `<p>${w[0].substr(0,w[0].length-w[1])}<i>${w[0].substr(-w[1])}</i></p>`
+				 }
+				 r.innerHTML = t
+			 })
+		 }, 0)
 	 }
 	 function getUrl (url, cb) {
 		 const x = new XMLHttpRequest

@@ -6,6 +6,7 @@ header("Content-type: text/plain; charset=utf-8");
 
 $q = @trim(filter_var($_REQUEST["q"], FILTER_SANITIZE_STRING));
 if(!$q) exit(1);
+$q_last = mb_strlen($q)-2;
 
 $n = @trim(filter_var($_REQUEST["n"], FILTER_SANITIZE_STRING));
 $n = intval(translate_nums(translate_nums($n, "ckb", "en"), "fa", "en"));
@@ -19,19 +20,23 @@ $words = explode("\n", $words);
 
 $result = [];
 
-foreach($words as $i => $word)
-	@$result[serwa($q, $word)][] = $word;
+foreach($words as $i => $word) {
+	$w = explode("\t", $word);
+	$i = serwa($q, $q_last, $w[0], $w[1]);
+	@$result[$i][] = "$w[0]\t$i";
+}
 
 print_n($result, $n);
 
 /* Functions */
-function serwa ($word_1, $word_2) {
-	$i = 0;
-	$word_1_len = mb_strlen($word_1) - 1;
-	$word_2_len = mb_strlen($word_2) - 1;
-	while($word_1_len >= 0 and $word_2_len >= 0 and
-		$word_1[$word_1_len--] == $word_2[$word_2_len--]) $i++;
+function serwa ($word_1, $word_1_last, $word_2, $word_2_last) {
+	$i = 1;
+	while($word_1_last >= 0 and $word_2_last >= 0 and
+		L($word_1, $word_1_last--) == L($word_2, $word_2_last--)) $i++;
 	return $i;
+}
+function L ($word, $i) {
+	return mb_substr($word, $i, 1);
 }
 function print_n ($arr, $n) {
 	if(!$arr) return;

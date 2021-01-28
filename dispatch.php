@@ -10,9 +10,10 @@ foreach(INP as $inp) {
 	$words = explode("\n", $words);
 	foreach($words as $word) {
 		$last_letter = mb_substr($word, -1);
+		$last_index = mb_strlen($word) - 2;
 		@mkdir(TREE."/$last_letter", 0755, true);
 		$f = fopen(TREE."/$last_letter/1.txt", "a");
-		fwrite($f, "$word\n");
+		fwrite($f, "$word\t$last_index\n");
 		fclose($f);
 	}
 }
