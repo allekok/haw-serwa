@@ -5,8 +5,14 @@
 		<meta charset="utf-8" >
 		<meta name="viewport" content="width=device-width" >
 		<style>
+		 @font-face {
+			 font-family:"nesx";
+			 font-display:swap;
+			 src:url("//allekok.github.io/src/frontend/style/DroidNaskh-Regular.woff2") format("woff2");
+		 }
 		 body {
 			 margin:0;
+			 font-family:"nesx";
 		 }
 		 header {
 			 text-align:center;
@@ -35,6 +41,7 @@
 			 font-size:inherit;
 			 margin:1em .3em;
 			 border-bottom:1px solid;
+			 font-family:inherit;
 		 }
 		 input:focus {
 			 border-color:#00E;
@@ -54,6 +61,7 @@
 			 max-width:25%;
 			 min-width:75px;
 			 box-sizing:border-box;
+			 font-family:inherit;
 			 font-size:inherit;
 		 }
 		 button:hover {
@@ -61,7 +69,12 @@
 		 }
 		 #result {
 			 padding:1em;
-			 font-size:1.1em;
+			 font-size:1.05em;
+		 }
+		 #result p {
+			 border-bottom:1px solid;
+			 margin:0;
+			 padding:.7em;
 		 }
 		 p.left {
 			 direction:ltr;
@@ -70,9 +83,15 @@
 		 }
 		 i {
 			 color:#00E;
-			 border-bottom:1px solid #00E;
-			 padding-bottom:.3em;
 			 font-style:normal;
+		 }
+		 footer {
+			 text-align:center;
+			 padding:2em .5em;
+		 }
+		 footer a {
+			 color:#00E;
+			 text-decoration:none;
 		 }
 		</style>
 	</head>
@@ -95,6 +114,11 @@
 		<p class="left">
 			API: /haw-serwa.php?q=وشە&n=ئەژمار
 		</p>
+		<footer>
+			<a href="https://github.com/allekok/haw-serwa">کۆد</a>
+			/
+			<a href="https://allekok.github.io/">بەرنامەکانی ئاڵەکۆک</a>
+		</footer>
 	</body>
 	<script>
 	 const frm = document.querySelector("form")
@@ -119,11 +143,12 @@
 		 setTimeout(() => {
 			 r.innerText = "..."
 			 getUrl(`haw-serwa.php?q=${qVal}&n=${nVal}`, s => {
-				 s = s.split("\n")
+				 s = s.trim().split("\n")
 				 let t = ""
+				 let i = 1
 				 for(const o of s) {
 					 const w = o.split("\t")
-					 t += `<p>${w[0].substr(0,w[0].length-w[1])}<i>${w[0].substr(-w[1])}</i></p>`
+					 t += `<p>${translateNumbers(String(i++),"en","ckb")}. ${w[0].substr(0,w[0].length-w[1])}<i>${w[0].substr(-w[1])}</i></p>`
 				 }
 				 r.innerHTML = t
 			 })
