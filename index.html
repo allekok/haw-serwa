@@ -1,9 +1,9 @@
 <!DOCTYPE HTML>
-<html dir="rtl" lang="ckb" >
+<html dir="rtl" lang="ckb">
 	<head>
 		<title>هاوسەروا</title>
-		<meta charset="utf-8" >
-		<meta name="viewport" content="width=device-width" >
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width">
 		<style>
 		 @font-face {
 			 font-family:"nesx";
@@ -106,7 +106,8 @@
 			</div>
 			<div>
 				<label>ئەژمار:</label>
-				<input type="text" name="n" id="n" value="٢٥">
+				<input type="text" name="n" id="n"
+				       value="٢٥">
 			</div>
 			<button type="submit">بیدۆزەوە</button>
 		</form>
@@ -115,9 +116,11 @@
 			API: /haw-serwa.php?q=وشە&n=ئەژمار
 		</p>
 		<footer>
-			<a href="https://github.com/allekok/haw-serwa">کۆد</a>
+			<a href="https://github.com/allekok/haw-serwa"
+			>کۆد</a>
 			/
-			<a href="https://allekok.github.io/">بەرنامەکانی ئاڵەکۆک</a>
+			<a href="https://allekok.github.io/"
+			>بەرنامەکانی ئاڵەکۆک</a>
 		</footer>
 	</body>
 	<script>
@@ -126,49 +129,50 @@
 	 const n = document.querySelector("input#n")
 	 const r = document.querySelector("#result")
 	 
-	 frm.addEventListener("submit", (e) => {
+	 frm.addEventListener("submit", e => {
 		 e.preventDefault()
 		 find()
 	 })
 	 q.focus()
 
-	 function find () {
-		 const qVal = q.value.trim()
-		 const nVal = translateNumbers(translateNumbers(
-			 n.value.trim(), "ckb", "en"), "fa", "en")
-		 if(!qVal) {
+	 function find() {
+		 const qV = q.value.trim()
+		 const nV = translateNumbers(translateNumbers(
+			 n.value.trim(), "ck", "en"), "fa", "en")
+		 if(!qV) {
 			 q.focus()
 			 return
 		 }
 		 setTimeout(() => {
 			 r.innerText = "..."
-			 getUrl(`haw-serwa.php?q=${qVal}&n=${nVal}`, s => {
+			 getUrl(`haw-serwa.php?q=${qV}&n=${nV}`, s => {
 				 s = s.trim().split("\n")
 				 let t = ""
 				 let i = 1
 				 for(const o of s) {
 					 const w = o.split("\t")
-					 t += `<p>${translateNumbers(String(i++),"en","ckb")}. ${w[0].substr(0,w[0].length-w[1])}<i>${w[0].substr(-w[1])}</i></p>`
+					 t += `<p>${translateNumbers(String(i++),"en","ck")}. ${w[0].substr(0,w[0].length-w[1])}<i>${w[0].substr(-w[1])}</i></p>`
 				 }
 				 r.innerHTML = t
 			 })
 		 }, 0)
 	 }
-	 function getUrl (url, cb) {
+	 function getUrl(url, cb) {
 		 const x = new XMLHttpRequest
 		 x.onload = () => cb(x.responseText)
 		 x.open("get", url)
 		 x.send()
 	 }
-	 function translateNumbers (str, f, t) {
+	 function translateNumbers(str, f, t) {
 		 const numbers = {
 			 en: ["1","2","3","4","5","6","7","8","9","0"],
-			 ckb: ["١","٢","٣","٤","٥","٦","٧","٨","٩","٠"],
+			 ck: ["١","٢","٣","٤","٥","٦","٧","٨","٩","٠"],
 			 fa: ["۰","۱","۲","۳","۴","۵","۶","۷","۸","۹"],
 		 }
 		 for(const i in numbers.en)
-			 str = str.replace(new RegExp(numbers[f][i], "g"),
-					   numbers[t][i])
+			 str = str.replace(
+				 new RegExp(numbers[f][i], "g"),
+				 numbers[t][i])
 		 return str
 	 }
 	</script>

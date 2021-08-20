@@ -9,7 +9,8 @@ if(!$q) exit(1);
 $q_last = mb_strlen($q)-2;
 
 $n = @trim(filter_var($_REQUEST["n"], FILTER_SANITIZE_STRING));
-$n = intval(translate_nums(translate_nums($n, "ckb", "en"), "fa", "en"));
+$n = intval(translate_nums(
+	translate_nums($n, "ckb", "en"), "fa", "en"));
 if(!filter_var($n, FILTER_VALIDATE_INT)) $n = 30;
 
 $path = TREE . "/" . mb_substr($q, -1) . "/1.txt";
@@ -29,16 +30,17 @@ foreach($words as $i => $word) {
 print_n($result, $n);
 
 /* Functions */
-function serwa ($word_1, $word_1_last, $word_2, $word_2_last) {
+function serwa($w_1, $w_1_last, $w_2, $w_2_last) {
 	$i = 1;
-	while($word_1_last >= 0 and $word_2_last >= 0 and
-		L($word_1, $word_1_last--) == L($word_2, $word_2_last--)) $i++;
+	while($w_1_last >= 0 and
+		$w_2_last >= 0 and
+		L($w_1, $w_1_last--) == L($w_2, $w_2_last--)) $i++;
 	return $i;
 }
-function L ($word, $i) {
+function L($word, $i) {
 	return mb_substr($word, $i, 1);
 }
-function print_n ($arr, $n) {
+function print_n($arr, $n) {
 	if(!$arr) return;
 	$last_el = array_pop($arr);
 	foreach($last_el as $o) {
@@ -47,7 +49,7 @@ function print_n ($arr, $n) {
 	}
 	print_n($arr, $n);
 }
-function translate_nums ($str, $f, $t) {
+function translate_nums($str, $f, $t) {
 	$numbers = [
 		"en" => ["1","2","3","4","5","6","7","8","9","0"],
 		"ckb" => ["١","٢","٣","٤","٥","٦","٧","٨","٩","٠"],

@@ -18,7 +18,7 @@ foreach(INP as $inp) {
 	}
 }
 
-function rmdir_rec ($path) {
+function rmdir_rec($path) {
 	$files = array_diff(scandir($path), [".",".."]);
 	foreach($files as $f) {
 		if(is_dir("$path/$f"))
